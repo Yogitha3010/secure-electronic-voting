@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Cast vote | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<a class="text-decoration-none" href="{{ url_for('voter_dashboard') }}">&larr; Back to voter dashboard</a>
+<div class="row justify-content-center mt-3"><div class="col-lg-8">
+  <h1 class="h2">{{ election.title }}</h1>
+  <p class="text-muted">Choose one candidate. Once submitted, your encrypted vote cannot be changed.</p>
+  <form method="post" class="card card-body shadow-sm">
+    {{ form.hidden_tag() }}
+    {% for option in form.candidate_id %}
+      <div class="form-check border rounded p-3 mb-2">
+        {{ option(class_="form-check-input") }}
+        {{ option.label(class_="form-check-label ms-1") }}
+      </div>
+    {% endfor %}
+    {% for error in form.candidate_id.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+    {{ form.submit(class_="btn btn-primary mt-3") }}
+  </form>
+</div></div>
+{% endblock %}

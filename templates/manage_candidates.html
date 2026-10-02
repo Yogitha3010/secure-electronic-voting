@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Candidates | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<a class="text-decoration-none" href="{{ url_for('admin_dashboard') }}">&larr; Back to dashboard</a>
+<div class="d-flex justify-content-between align-items-center mt-3 mb-4"><div><h1 class="h2 mb-1">{{ election.title }}</h1><p class="text-muted mb-0">Manage candidates before the election starts.</p></div>{% if election.effective_status != 'UPCOMING' %}<span class="badge text-bg-secondary">{{ election.effective_status }}</span>{% endif %}</div>
+<div class="row g-4">
+  <div class="col-lg-5"><section class="card shadow-sm"><div class="card-body">
+    <h2 class="h5">Add candidate</h2>
+    {% if election.effective_status != 'UPCOMING' %}<p class="text-muted mb-0">Candidate changes are disabled after an election starts.</p>{% else %}
+    <form method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="mb-3">{{ form.name.label(class_="form-label") }}{{ form.name(class_="form-control") }}{% for error in form.name.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}</div>
+      <div class="mb-3">{{ form.affiliation.label(class_="form-label") }}{{ form.affiliation(class_="form-control") }}{% for error in form.affiliation.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}</div>
+      {{ form.submit(class_="btn btn-primary") }}
+    </form>{% endif %}
+  </div></section></div>
+  <div class="col-lg-7"><section class="card shadow-sm"><div class="card-body"><h2 class="h5">Candidate list</h2>
+    {% if election.candidates %}<ul class="list-group list-group-flush">{% for candidate in election.candidates|sort(attribute='name') %}<li class="list-group-item px-0"><strong>{{ candidate.name }}</strong><span class="text-muted"> - {{ candidate.affiliation }}</span></li>{% endfor %}</ul>{% else %}<p class="text-muted mb-0">No candidates added yet.</p>{% endif %}
+  </div></section></div>
+</div>
+{% endblock %}

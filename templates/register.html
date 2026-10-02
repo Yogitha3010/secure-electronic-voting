@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Register | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-7 col-lg-6">
+  <h1 class="h3 mb-4">Voter registration</h1>
+  <form method="post" novalidate class="card card-body shadow-sm">
+    {{ form.hidden_tag() }}
+    {% for field in [form.username, form.email, form.password, form.confirm_password] %}
+      <div class="mb-3">
+        {{ field.label(class_="form-label") }}
+        {{ field(class_="form-control") }}
+        {% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+    {{ form.submit(class_="btn btn-primary") }}
+  </form>
+</div></div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Vote | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<h1 class="h2 mb-2">Voter dashboard</h1>
+<p class="text-muted mb-4">You may cast one encrypted vote in each active election.</p>
+{% if elections %}
+  <div class="row g-4">{% for election in elections %}<div class="col-md-6">
+    <section class="card shadow-sm h-100"><div class="card-body">
+      <div class="d-flex justify-content-between align-items-start gap-3"><div><h2 class="h4">{{ election.title }}</h2>{% if election.description %}<p class="mb-0 text-muted">{{ election.description }}</p>{% endif %}</div><span class="badge text-bg-success">Active</span></div>
+      {% if election.id in participated_election_ids %}
+        <div class="alert alert-info mt-4 mb-0">Your participation has been recorded for this election.</div>
+      {% else %}
+        <a class="btn btn-primary mt-4" href="{{ url_for('cast_vote', election_id=election.id) }}">View candidates and vote</a>
+      {% endif %}
+    </div></section>
+  </div>{% endfor %}</div>
+{% else %}
+  <div class="alert alert-secondary">There is no active election at this time.</div>
+{% endif %}
+{% endblock %}

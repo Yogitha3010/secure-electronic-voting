@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Edit election | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<a class="text-decoration-none" href="{{ url_for('admin_dashboard') }}">&larr; Back to dashboard</a>
+<div class="row justify-content-center mt-3"><div class="col-lg-7">
+  <h1 class="h2 mb-4">Edit election</h1>
+  <form method="post" novalidate class="card card-body shadow-sm">
+    {{ form.hidden_tag() }}
+    {% for field in [form.title, form.description, form.start_at, form.end_at] %}
+      <div class="mb-3">{{ field.label(class_="form-label") }}{{ field(class_="form-control") }}{% for error in field.errors %}<div class="text-danger small mt-1">{{ error }}</div>{% endfor %}</div>
+    {% endfor %}
+    {{ form.submit(class_="btn btn-primary", value="Save election") }}
+  </form>
+</div></div>
+{% endblock %}

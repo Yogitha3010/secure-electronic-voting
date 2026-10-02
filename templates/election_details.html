@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Election details | Secure E-Voting Prototype{% endblock %}
+{% block content %}
+<a class="text-decoration-none" href="{{ url_for('admin_dashboard') }}">&larr; Back to dashboard</a>
+<div class="d-flex justify-content-between align-items-start mt-3 mb-4"><div><h1 class="h2 mb-1">{{ election.title }}</h1><p class="text-muted mb-0">{{ election.description or 'No description provided.' }}</p></div><span class="badge text-bg-{% if election.effective_status == 'ACTIVE' %}success{% elif election.effective_status == 'CLOSED' %}dark{% else %}secondary{% endif %}">{{ election.effective_status }}</span></div>
+<div class="row g-4"><div class="col-md-4"><div class="card card-body shadow-sm"><span class="text-muted">Scheduled start</span><strong>{{ election.start_at or 'Not scheduled' }}</strong></div></div><div class="col-md-4"><div class="card card-body shadow-sm"><span class="text-muted">Scheduled end</span><strong>{{ election.end_at or 'Not scheduled' }}</strong></div></div><div class="col-md-4"><div class="card card-body shadow-sm"><span class="text-muted">Encrypted votes</span><strong class="display-6">{{ vote_count }}</strong></div></div></div>
+<section class="card shadow-sm mt-4"><div class="card-body"><h2 class="h5">Candidates</h2>{% if election.candidates %}<ul class="mb-0">{% for candidate in election.candidates|sort(attribute='name') %}<li>{{ candidate.name }} - {{ candidate.affiliation }}</li>{% endfor %}</ul>{% else %}<p class="text-muted mb-0">No candidates have been added.</p>{% endif %}</div></section>
+{% endblock %}
